@@ -1,4 +1,18 @@
 # ncov2019-artic-nf
+
+## RITM-MBL HPC1
+`cd /data/geco_proj_dir` # enter geco project directory
+
+### Template artic nanopore command
+`nextflow run /data/apps/ncov2019-artic-nf -profile conda --cache work/conda --nanopolish --prefix <outfile_pref> --basecalled_fastq <path/to/fastq_pass> --fast5_pass <path/to/fast5_pass> --sequencing_summary <path/to/sequencing_summary.txt> --gff /data/apps/ncov2019-artic-nf/typing/MN908947.3.gff --yaml /data/apps/ncov2019-artic-nf/typing/SARS-CoV-2.types.yaml --outdir <path/to/workingdir/results>`
+
+### Template artic illumina command
+`nextflow run /data/apps/ncov2019-artic-nf -profile conda --cache work/conda --illumina --prefix <outfile_pref> --directory <path/to/paired/fastq.gz> --gff /data/apps/ncov2019-artic-nf/typing/MN908947.3.gff --yaml /data/apps/ncov2019-artic-nf/typing/SARS-CoV-2.types.yaml --outdir <path/to/workingdir/results>`
+
+<br>
+
+## (From Connor Lab's README:)
+
 A Nextflow pipeline for running the ARTIC network's fieldbioinformatics tools (https://github.com/artic-network/fieldbioinformatics), with a focus on ncov2019 
 
 WARNING - THIS REPO IS UNDER ACTIVE DEVELOPMENT AND ITS BEHAVIOUR MAY CHANGE AT **ANY** TIME. 
