@@ -4,10 +4,10 @@
 `cd /data/geco_proj_dir` # enter geco project directory
 
 ### Template artic nanopore command
-`nextflow run /data/apps/ncov2019-artic-nf -profile conda --cache work/conda --nanopolish --prefix <outfile_pref> --basecalled_fastq <path/to/fastq_pass> --fast5_pass <path/to/fast5_pass> --sequencing_summary <path/to/sequencing_summary.txt> --gff /data/apps/ncov2019-artic-nf/typing/MN908947.3.gff --yaml /data/apps/ncov2019-artic-nf/typing/SARS-CoV-2.types.yaml --outdir <path/to/workingdir/results>`
+`nextflow run /data/apps/ncov2019-artic-nf -profile docker -with-docker ritmmbl/ncov2019-artic-nf-illumina:latest --nanopolish --prefix <outfile_pref> --basecalled_fastq <path/to/fastq_pass> --fast5_pass <path/to/fast5_pass> --sequencing_summary <path/to/sequencing_summary.txt> --gff /data/apps/ncov2019-artic-nf/typing/MN908947.3.gff --yaml /data/apps/ncov2019-artic-nf/typing/SARS-CoV-2.types.yaml --outdir <path/to/workingdir/results>`
 
 ### Template artic illumina command
-`nextflow run /data/apps/ncov2019-artic-nf -profile conda --cache work/conda --illumina --prefix <outfile_pref> --directory <path/to/paired/fastq.gz> --gff /data/apps/ncov2019-artic-nf/typing/MN908947.3.gff --yaml /data/apps/ncov2019-artic-nf/typing/SARS-CoV-2.types.yaml --outdir <path/to/workingdir/results>`
+`nextflow run /data/apps/ncov2019-artic-nf -profile docker -with-docker ritmmbl/ncov2019-artic-nf-illumina:latest --illumina --prefix <outfile_pref> --directory <path/to/paired/fastq.gz> --gff /data/apps/ncov2019-artic-nf/typing/MN908947.3.gff --yaml /data/apps/ncov2019-artic-nf/typing/SARS-CoV-2.types.yaml --outdir <path/to/workingdir/results>`
 
 <br>
 
