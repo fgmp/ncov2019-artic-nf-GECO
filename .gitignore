@@ -3,3 +3,6 @@ nextflow
 results
 *.sif
 work
+artifacts/
+singularity-3.5.3
+singularity-3.5.3.tar.gz
