@@ -22,6 +22,7 @@ include {collateSamples} from '../modules/upload.nf'
 
 // import subworkflows
 include {Genotyping} from './typing.nf'
+include {coverageDepth} from './depth.nf'
 
 workflow prepareReferenceFiles {
     // Get reference fasta
@@ -124,6 +125,7 @@ workflow sequenceAnalysis {
     emit:
       qc_pass = collateSamples.out
       variants = callVariants.out.variants
+      bam = trimPrimerSequences.out.ptrim
 }
 
 workflow ncovIllumina {
@@ -146,6 +148,9 @@ workflow ncovIllumina {
                  .set{ ch_typingYaml }
 
           Genotyping(sequenceAnalysis.out.variants, ch_refGff, prepareReferenceFiles.out.reffasta, ch_typingYaml) 
+
+      // Get average coverage depth
+      coverageDepth(sequenceAnalysis.out.bam)
 
       }
 }
