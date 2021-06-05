@@ -20,6 +20,7 @@ include {collateSamples} from '../modules/upload.nf'
 
 // import subworkflows
 include {Genotyping} from './typing.nf'
+include {coverageDepth} from './depth.nf'
 
 // workflow component for artic pipeline
 workflow sequenceAnalysisNanopolish {
@@ -71,6 +72,7 @@ workflow sequenceAnalysisNanopolish {
       qc_pass = collateSamples.out
       reffasta = articDownloadScheme.out.reffasta
       vcf = articMinIONNanopolish.out.vcf
+      bam = articMinIONNanopolish.out.ptrim
 
 }
 
@@ -154,6 +156,9 @@ workflow articNcovNanopore {
                  .set{ ch_typingYaml }
 
           Genotyping(ch_nanopore_vcf, ch_refGff, ch_nanopore_reffasta, ch_typingYaml)
+
+      // Get average coverage depth for nanopolish
+      coverageDepth(sequenceAnalysisNanopolish.out.bam)
 
       }
 }
