@@ -23,6 +23,7 @@ include {collateSamples} from '../modules/upload.nf'
 // import subworkflows
 include {Genotyping} from './typing.nf'
 include {coverageDepth} from './depth.nf'
+include {collateSummary} from './collate.nf'
 
 workflow prepareReferenceFiles {
     // Get reference fasta
@@ -126,6 +127,7 @@ workflow sequenceAnalysis {
       qc_pass = collateSamples.out
       variants = callVariants.out.variants
       bam = trimPrimerSequences.out.ptrim
+      qc_csv = writeQCSummaryCSV.out.qcsummary
 }
 
 workflow ncovIllumina {
@@ -151,6 +153,9 @@ workflow ncovIllumina {
 
       // Get average coverage depth
       coverageDepth(sequenceAnalysis.out.bam)
+
+      // Collate summary CSV
+      collateSummary(sequenceAnalysis.out.qc_csv, coverageDepth.out.depth_csv, Genotyping.out.typing_csv)
 
       }
 }

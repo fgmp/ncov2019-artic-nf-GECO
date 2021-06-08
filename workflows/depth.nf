@@ -9,4 +9,7 @@ workflow coverageDepth {
     main:
       getAveDepth(ch_bam)
       mergeDepthCSVs(getAveDepth.out.depth_csv.toList())
+
+    emit:
+      depth_csv = mergeDepthCSVs.out.depth_summary_csv
 }

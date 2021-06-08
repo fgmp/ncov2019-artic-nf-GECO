@@ -26,11 +26,16 @@ process makeQCCSV {
 process writeQCSummaryCSV {
     tag { params.prefix }
 
+    publishDir "${params.outdir}", pattern: "${params.prefix}.qc.csv", mode: 'copy'
+
     input:
     val lines
 
+    output:
+    path "${params.prefix}.qc.csv", emit: qcsummary
+
     exec:
-    file("${params.outdir}/${params.prefix}.qc.csv").withWriter { writer ->
+    file("${task.workDir}/${params.prefix}.qc.csv").withWriter { writer ->
         for ( line in lines ) {
             writer.writeLine(line.join(','))
          }   

@@ -12,4 +12,7 @@ workflow Genotyping {
     main:
       typeVariants(ch_variantCalls.combine(ch_refGff).combine(ch_refFasta).combine(ch_typingYaml))
       mergeTypingCSVs(typeVariants.out.typing_csv.toList().map{ [ it ] }.combine(typeVariants.out.variants_csv.toList().map{ [ it ] }))
+
+    emit:
+      typing_csv = mergeTypingCSVs.out.typing_summary_csv
 }
