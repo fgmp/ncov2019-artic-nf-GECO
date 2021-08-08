@@ -12,10 +12,8 @@ process getAveDepth {
     path "${sampleName}.depth.csv", emit: depth_csv
     
     script:
-    """
-    # add if-else or assert statement to check total rows equal to largest coordinate in depth file, otherwise return error
-    samtools depth -d 1000000 -a ${bam} | awk '{SUM+=\$3} END {OFS=","; print "${sampleName}", SUM/NR}' > ${sampleName}.depth.csv
-    """
+    template 'getdepth.sh'
+
 }
 
 
