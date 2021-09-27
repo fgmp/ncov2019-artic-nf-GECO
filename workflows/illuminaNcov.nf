@@ -149,15 +149,16 @@ workflow ncovIllumina {
           Channel.fromPath("${params.yaml}")
                  .set{ ch_typingYaml }
 
-          Genotyping(sequenceAnalysis.out.variants, ch_refGff, prepareReferenceFiles.out.reffasta, ch_typingYaml) 
+          Genotyping(sequenceAnalysis.out.variants, ch_refGff, prepareReferenceFiles.out.reffasta, ch_typingYaml)
+
+      }
 
       // Get average coverage depth
       coverageDepth(sequenceAnalysis.out.bam)
 
       // Collate summary CSV
-      collateSummary(sequenceAnalysis.out.qc_csv, coverageDepth.out.depth_csv, Genotyping.out.typing_csv)
+      collateSummary(sequenceAnalysis.out.qc_csv, coverageDepth.out.depth_csv)
 
-      }
 }
 
 workflow ncovIlluminaCram {

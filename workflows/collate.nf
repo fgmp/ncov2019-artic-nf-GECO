@@ -5,8 +5,7 @@ workflow collateSummary {
     take:
       ch_qc
       ch_depth
-      ch_typing
 
     main:
-      collateSummaryCSV(ch_qc.mix(ch_depth,ch_typing).toList())
+      collateSummaryCSV(ch_qc.mix(ch_depth).toList())
 }
