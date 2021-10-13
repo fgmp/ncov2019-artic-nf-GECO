@@ -159,12 +159,13 @@ workflow articNcovNanopore {
 
           Genotyping(ch_nanopore_vcf, ch_refGff, ch_nanopore_reffasta, ch_typingYaml)
 
+      }
+
       // Get average coverage depth for nanopolish
       coverageDepth(sequenceAnalysisNanopolish.out.bam)
 
       // Collate summary CSV
-      collateSummary(sequenceAnalysisNanopolish.out.qc_csv, coverageDepth.out.depth_csv, Genotyping.out.typing_csv)
+      collateSummary(sequenceAnalysisNanopolish.out.qc_csv, coverageDepth.out.depth_csv)
 
-      }
 }
 
