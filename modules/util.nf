@@ -39,3 +39,24 @@ def makeFastqSearchPath ( illuminaPrefixes, illuminaSuffixes, fastq_exts ) {
     return fastqSearchPath
 }
 
+
+def makeRunParamSearchPath ( runparam ) {
+
+    def runparamSearchPath = ""
+
+    for (inf in runparam){
+
+      // Make a glob to recurse directories
+      dirNameGlob = params.directory.replaceAll(/\/+$/, "") + '**'
+
+      // Make a filename glob
+      fileNameGlob = inf
+
+      // Build a path
+      searchPath = Paths.get(dirNameGlob, fileNameGlob )
+
+      runparamSearchPath = searchPath.toString()
+    }
+
+    return runparamSearchPath
+}

@@ -8,4 +8,7 @@ workflow collateSummary {
 
     main:
       collateSummaryCSV(ch_qc.mix(ch_depth).toList())
+
+    emit:
+      summary_csv = collateSummaryCSV.out.summary_csv
 }

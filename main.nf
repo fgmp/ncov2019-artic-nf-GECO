@@ -6,6 +6,7 @@ nextflow.preview.dsl = 2
 // include modules
 include {printHelp} from './modules/help.nf'
 include {makeFastqSearchPath} from './modules/util.nf'
+include {makeRunParamSearchPath} from './modules/util.nf'
 
 // import subworkflows
 include {articNcovNanopore} from './workflows/articNcovNanopore.nf' 
@@ -84,6 +85,10 @@ workflow {
 	   Channel.fromFilePairs( fastqSearchPath, flat: true)
 	          .filter{ !( it[0] =~ /Undetermined/ ) }
 	          .set{ ch_filePairs }
+
+       runparamSearchPath = makeRunParamSearchPath( params.runparam )
+       Channel.fromPath( runparamSearchPath)
+	          .set{ ch_runparam }
        }
    }
    else {
@@ -122,7 +127,7 @@ workflow {
             ncovIlluminaCram(ch_cramFiles)
          }
          else {
-            ncovIllumina(ch_filePairs)
+            ncovIllumina(ch_filePairs, ch_runparam)
          }
      } else {
          println("Please select a workflow with --nanopolish, --illumina or --medaka")

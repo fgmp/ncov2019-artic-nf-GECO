@@ -24,6 +24,7 @@ include {collateSamples} from '../modules/upload.nf'
 include {Genotyping} from './typing.nf'
 include {coverageDepth} from './depth.nf'
 include {collateSummary} from './collate.nf'
+include {prepRedcap} from './redcapPrep.nf'
 
 workflow prepareReferenceFiles {
     // Get reference fasta
@@ -133,6 +134,7 @@ workflow sequenceAnalysis {
 workflow ncovIllumina {
     take:
       ch_filePairs
+      ch_runparam
 
     main:
       // Build or download fasta, index and bedfile as required
@@ -159,6 +161,8 @@ workflow ncovIllumina {
       // Collate summary CSV
       collateSummary(sequenceAnalysis.out.qc_csv, coverageDepth.out.depth_csv)
 
+      // Prepare metadata & fasta for REDCap import
+      prepRedcap(collateSummary.out.summary_csv, ch_runparam)
 }
 
 workflow ncovIlluminaCram {
