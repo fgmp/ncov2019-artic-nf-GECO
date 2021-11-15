@@ -8,3 +8,8 @@ dependencies:
   - pandas
   - samtools
   - libxcb
+  - pyfaidx
+  - requests
+  - pip
+  - pip:
+    - PyCap
