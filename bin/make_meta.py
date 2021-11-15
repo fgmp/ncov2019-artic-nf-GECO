@@ -5,7 +5,7 @@ import sys
 import xml.dom.minidom
 
 import pandas as pd
-from pyfaidx import Fasta 
+from pyfaidx import Fasta
 import redcap
 import requests
 
@@ -14,15 +14,18 @@ summaryfile = sys.argv[2]
 metafile = sys.argv[3]
 dag = sys.argv[4]
 instance = sys.argv[5]
-outfile = sys.argv[6] + ".redcap_meta.csv"
+url = sys.argv[6]
+token = sys.argv[7]
+outname = sys.argv[8]
 
 # Set key name for the metafile data to be collected.
 meta_dict = {
     "central_id" : "",
-    "gisaid_name" : "",
+    "redcap_repeat_instrument" : "",
     "redcap_repeat_instance" : "",
     "redcap_data_access_group" : "",
     "local_id" : "",
+    "gisaid_name" : "",
     "rapid_local_id" : "",
     "diagnostic_local_id" : "",
     "sequence_local_id" : "",
@@ -114,18 +117,61 @@ summary_df["diagnostic_local_id"] = summary_df["local_id"]
 summary_df["sequence_local_id"] = summary_df["local_id"]
 summary_df["analysis_local_id"] = summary_df["local_id"]
 
-# Set index to local_id.
-summary_df.set_index("local_id", inplace=True)
+# FIXME: PyCap API will fail if there are more than 1M cells in the project.
+# See robust export func from docs: https://pycap.readthedocs.io/en/latest/deep.html#dealing-with-large-exports
+# But above will also fail if there are more than 1M records in the project. Maybe use SQL lib by that point?
 
-# Assign central_id's, gisaid_name's to summary_df based on last used central_id on REDCap.
+## Assign central_id's, gisaid_name's to summary_df based on last used central_id on REDCap.
+# Fetch last used central_id from REDCap, set new central_id.
+project = redcap.Project(url, token)
+fields_of_interest = ['central_id']
+central_id_ls = project.export_records(fields=fields_of_interest)
+last_central_id = int(central_id_ls[-1]['central_id'])
+new_central_id = last_central_id + 1
+
+# Loop summary_df rows.
+for index, row in summary_df.iterrows():
+    # Set central_id of record to new central_id.
+    summary_df.loc[index, "central_id"] = new_central_id
+    # Set gisaid_name of record making use of new central_id.
+    summary_df.loc[index, "gisaid_name"] = "PH"+"-"+dag.upper()+"-"+str(new_central_id)
+    # Increment new central_id.
+    new_central_id = new_central_id + 1
+
+# Set summary_df index to central_id.
+summary_df.set_index("central_id", inplace=True)
+
+# Separate output csv's by repeat instrument.
+# Case instrument
+case_cols = ["central_id", "redcap_repeat_instance",
+    "redcap_data_access_group", "local_id", "gisaid_name"]
+summary_case_df = summary_df.filter(case_cols, axis=1)
+# Diagnostic instrument
+diag_cols = ["central_id", "redcap_repeat_instance",
+    "redcap_data_access_group", "diagnostic_local_id"]
+summary_diagnostic_df = summary_df.filter(diag_cols, axis=1)
+# Sequence  instrument
+seq_cols = ["central_id", "redcap_repeat_instance",
+    "redcap_data_access_group", "sequence_local_id", "project_id",
+    "flowcell_id", "flowcell_type", "instrument_make",
+    "instrument_model", "run_name", "library_strategy"]
+summary_sequence_df = summary_df.filter(seq_cols, axis=1)
+# Analysis instrument
+analysis_cols = ["central_id", "redcap_repeat_instance",
+    "redcap_data_access_group", "analysis_local_id"]
+summary_analysis_df = summary_df.filter(analysis_cols, axis=1)
+
+
+# Write summary_df's to file for semi-automated redcap imports.
+summary_df.to_csv(outname+".redcap_meta.csv")
+summary_case_df.to_csv(outname+".redcap_meta_case.csv")
+summary_diagnostic_df.to_csv(outname+".redcap_meta_diagnostic.csv")
+summary_sequence_df.to_csv(outname+".redcap_meta_sequence.csv")
+summary_analysis_df.to_csv(outname+".redcap_meta_analysis.csv")
 
 
 # Rename FASTA headers based on new gisaid_name's.
 
-
-
-# Write summary_df to file for semi-automated redcap imports (need run separate script to import fastas).
-summary_df.to_csv(outfile)
 
 
 # try, except to terminate script when error raised.
