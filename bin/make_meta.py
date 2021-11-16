@@ -161,7 +161,7 @@ summary_sequence_df = summary_df.filter(seq_cols, axis=1)
 summary_sequence_df["redcap_repeat_instrument"] = "sequence"
 # Analysis instrument
 analysis_cols = ["central_id", "redcap_repeat_instrument", "redcap_repeat_instance",
-    "redcap_data_access_group", "analysis_local_id"]
+    "redcap_data_access_group", "analysis_local_id", "ave_depth", "missing"]
 summary_analysis_df = summary_df.filter(analysis_cols, axis=1)
 summary_analysis_df["redcap_repeat_instrument"] = "analysis"
 
