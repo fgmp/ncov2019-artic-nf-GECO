@@ -2,7 +2,7 @@
 process makeMeta {
 
     tag { params.prefix }
-    
+
     publishDir "${params.outdir}", pattern: "${params.prefix}.redcap_meta.csv", mode: 'copy'
     publishDir "${params.outdir}", pattern: "${params.prefix}.redcap_meta_case.csv", mode: 'copy'
     publishDir "${params.outdir}", pattern: "${params.prefix}.redcap_meta_diagnostic.csv", mode: 'copy'
@@ -20,7 +20,7 @@ process makeMeta {
     path "${params.prefix}.redcap_meta_analysis.csv", emit: redcap_meta_analysis_csv
 
 
-    script:  
+    script:
     if ( params.illumina ) {
        metaSetting = "illumina"
     } else {
