@@ -5,7 +5,7 @@ workflow prepRedcap {
     take:
       ch_summary_csv
       ch_runparam
-    
+
     // Should produce both master metadata table & renamed fastas.
     // Maybe subworkflow in same file add for uploading by api.
     main:
