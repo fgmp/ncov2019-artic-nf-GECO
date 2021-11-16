@@ -143,23 +143,27 @@ summary_df.set_index("central_id", inplace=True)
 
 # Separate output csv's by repeat instrument.
 # Case instrument
-case_cols = ["central_id", "redcap_repeat_instance",
+case_cols = ["central_id", "redcap_repeat_instrument", "redcap_repeat_instance",
     "redcap_data_access_group", "local_id", "gisaid_name"]
 summary_case_df = summary_df.filter(case_cols, axis=1)
+summary_case_df["redcap_repeat_instrument"] = "case"
 # Diagnostic instrument
-diag_cols = ["central_id", "redcap_repeat_instance",
+diag_cols = ["central_id", "redcap_repeat_instrument", "redcap_repeat_instance",
     "redcap_data_access_group", "diagnostic_local_id"]
 summary_diagnostic_df = summary_df.filter(diag_cols, axis=1)
+summary_diagnostic_df["redcap_repeat_instrument"] = "diagnostic"
 # Sequence  instrument
-seq_cols = ["central_id", "redcap_repeat_instance",
+seq_cols = ["central_id", "redcap_repeat_instrument", "redcap_repeat_instance",
     "redcap_data_access_group", "sequence_local_id", "project_id",
     "flowcell_id", "flowcell_type", "instrument_make",
     "instrument_model", "run_name", "library_strategy"]
 summary_sequence_df = summary_df.filter(seq_cols, axis=1)
+summary_sequence_df["redcap_repeat_instrument"] = "sequence"
 # Analysis instrument
-analysis_cols = ["central_id", "redcap_repeat_instance",
+analysis_cols = ["central_id", "redcap_repeat_instrument", "redcap_repeat_instance",
     "redcap_data_access_group", "analysis_local_id"]
 summary_analysis_df = summary_df.filter(analysis_cols, axis=1)
+summary_analysis_df["redcap_repeat_instrument"] = "analysis"
 
 
 # Write summary_df's to file for semi-automated redcap imports.
