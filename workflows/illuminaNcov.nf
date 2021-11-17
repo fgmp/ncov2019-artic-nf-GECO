@@ -129,6 +129,7 @@ workflow sequenceAnalysis {
       variants = callVariants.out.variants
       bam = trimPrimerSequences.out.ptrim
       qc_csv = writeQCSummaryCSV.out.qcsummary
+      consensus = makeConsensus.out.consensus
 }
 
 workflow ncovIllumina {
@@ -162,7 +163,7 @@ workflow ncovIllumina {
       collateSummary(sequenceAnalysis.out.qc_csv, coverageDepth.out.depth_csv)
 
       // Prepare metadata & fasta for REDCap import
-      prepRedcap(collateSummary.out.summary_csv, ch_runparam)
+      prepRedcap(collateSummary.out.summary_csv, ch_runparam, sequenceAnalysis.out.consensus)
 }
 
 workflow ncovIlluminaCram {

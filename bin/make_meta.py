@@ -43,6 +43,7 @@ meta_dict = {
 summary_rename_col = {
     "pct_covered_bases" : "missing",
     "ave_cov_depth" : "ave_depth",
+    "fasta" : "fasta",
 }
 
 # Set which summaryfile cols are dropped.
@@ -50,7 +51,6 @@ summary_drop_col = [
     "pct_N_bases",
     "longest_no_N_run",
     "num_aligned_reads",
-    "fasta",
     "bam",
     "qc_pass",
 ]
