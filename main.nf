@@ -85,10 +85,6 @@ workflow {
 	   Channel.fromFilePairs( fastqSearchPath, flat: true)
 	          .filter{ !( it[0] =~ /Undetermined/ ) }
 	          .set{ ch_filePairs }
-
-       runparamSearchPath = makeRunParamSearchPath( params.runparam )
-       Channel.fromPath( runparamSearchPath)
-	          .set{ ch_runparam }
        }
    }
    else {
@@ -119,9 +115,14 @@ workflow {
       }
    }
 
+   // Make a channel for run info file
+   runparamSearchPath = makeRunParamSearchPath( params.runparam )
+   Channel.fromPath( runparamSearchPath )
+          .set{ ch_runparam }
+
    main:
      if ( params.nanopolish || params.medaka ) {
-         articNcovNanopore(ch_fastqDirs)
+         articNcovNanopore(ch_fastqDirs, ch_runparam)
      } else if ( params.illumina ) {
          if ( params.cram ) {
             ncovIlluminaCram(ch_cramFiles)

@@ -22,6 +22,7 @@ include {collateSamples} from '../modules/upload.nf'
 include {Genotyping} from './typing.nf'
 include {coverageDepth} from './depth.nf'
 include {collateSummary} from './collate.nf'
+include {prepRedcap} from './redcapPrep.nf'
 
 // workflow component for artic pipeline
 workflow sequenceAnalysisNanopolish {
@@ -75,6 +76,7 @@ workflow sequenceAnalysisNanopolish {
       vcf = articMinIONNanopolish.out.vcf
       bam = articMinIONNanopolish.out.ptrim
       qc_csv = writeQCSummaryCSV.out.qcsummary
+      consensus = articMinIONNanopolish.out.consensus_fasta
 
 }
 
@@ -127,6 +129,7 @@ workflow sequenceAnalysisMedaka {
 workflow articNcovNanopore {
     take:
       ch_fastqDirs
+      ch_runparam
     
     main:
       if ( params.nanopolish ) {
@@ -164,8 +167,10 @@ workflow articNcovNanopore {
       // Get average coverage depth for nanopolish
       coverageDepth(sequenceAnalysisNanopolish.out.bam)
 
-      // Collate summary CSV
+      // Collate summary CSV for nanopolish
       collateSummary(sequenceAnalysisNanopolish.out.qc_csv, coverageDepth.out.depth_csv)
 
+      // Prepare metadata & fasta for REDCap import for nanopolish
+      prepRedcap(collateSummary.out.summary_csv, ch_runparam, sequenceAnalysisNanopolish.out.consensus)
 }
 
