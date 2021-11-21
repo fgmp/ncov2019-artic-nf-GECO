@@ -90,7 +90,7 @@ A subdirectory for each process in the workflow is created in `--outdir`. A `qc_
 `conda activate nextflow_conda`  # use conda-installed nextflow env
 
 ### Template nanopore command
-`nextflow run /data/apps/ncov2019-artic-nf -profile docker -with-docker ritmmbl/ncov2019-artic-nf-nanopore:latest --nanopolish --prefix <outfile_pref> --basecalled_fastq <path/to/fastq_pass> --fast5_pass <path/to/fast5_pass> --sequencing_summary <path/to/sequencing_summary.txt> --outdir <path/to/workingdir/results>`
+`nextflow run /data/apps/ncov2019-artic-nf_redcap_prep/ncov2019-artic-nf-GECO -profile conda --nanopolish --prefix <raw_folder_name> --basecalled_fastq <DAG/raw_folder_name/fastq_pass> --fast5_pass <DAG/raw_folder_name/fast5_pass> --sequencing_summary <DAG/raw_folder_name/sequencing_summary.txt> --outdir <DAG/raw_folder_name_results>  --directory <DAG/raw_folder_name>`
 
 ### Template illumina command
-`nextflow run /data/apps/ncov2019-artic-nf -profile docker -with-docker ritmmbl/ncov2019-artic-nf-illumina:2021-05 --illumina --prefix <outfile_pref> --directory <path/to/paired/fastq.gz> --outdir <path/to/workingdir/results>`
+`nextflow run /data/apps/ncov2019-artic-nf_redcap_prep/ncov2019-artic-nf-GECO -profile conda --illumina --prefix <raw_folder_name> --directory <DAG/raw_folder_name> --outdir <DAG/raw_folder_name_results>`
