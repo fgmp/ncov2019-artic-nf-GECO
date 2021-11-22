@@ -17,6 +17,7 @@ token = sys.argv[7]
 outname = sys.argv[8]
 
 # Set key name for the metafile data to be collected.
+# Include blank mandatory fields for easy entry & import of more metadata by encoders.
 meta_dict = {
     "central_id" : "",
     "redcap_repeat_instrument" : "",
@@ -24,8 +25,20 @@ meta_dict = {
     "redcap_data_access_group" : "",
     "local_id" : "",
     "gisaid_name" : "",
+    "adm3" : "",
+    "adm2" : "",
+    "adm1" : "",
+    "adm0" : "",
+    "date_collected" : "",
+    "date_received" : "",
+    "sample_type_collected" : "",
+    "age" : "",
+    "sex" : "",
+    "patient_outcome" : "",
     "rapid_local_id" : "",
     "diagnostic_local_id" : "",
+    "originating_lab" : "",
+    "originating_lab_address" : "",
     "sequence_local_id" : "",
     "project_id" : "",
     "flowcell_id" : "",
@@ -36,6 +49,8 @@ meta_dict = {
     "library_seq_kit" : "",
     "library_strategy" : "",
     "analysis_local_id" : "",
+    "gisaid_authors" : "",
+    "assembly_method" : "",
 }
 
 # Set how summaryfile cols are renamed.
@@ -187,15 +202,22 @@ for index, row in summary_df.iterrows():
 summary_df.set_index("central_id", inplace=True)
 
 # Separate output csv's by repeat instrument.
+# Add mandatory fields for easy entry & import of more metadata by encoders.
 # Case instrument
 case_cols = ["central_id", "redcap_repeat_instrument", "redcap_repeat_instance",
-    "redcap_data_access_group", "local_id", "gisaid_name"]
+    "redcap_data_access_group", "local_id", "gisaid_name",
+    "adm3", "adm2", "adm1",
+    "adm0", "date_collected", "date_received",
+    "sample_type_collected", "age", "sex",
+    "patient_outcome"
+    ]
 summary_case_df = summary_df.filter(case_cols, axis=1)
 summary_case_df["redcap_repeat_instrument"] = "case"
 
 # Diagnostic instrument
 diag_cols = ["central_id", "redcap_repeat_instrument", "redcap_repeat_instance",
-    "redcap_data_access_group", "diagnostic_local_id"]
+    "redcap_data_access_group", "diagnostic_local_id", "originating_lab",
+    "originating_lab_address"]
 summary_diagnostic_df = summary_df.filter(diag_cols, axis=1)
 summary_diagnostic_df["redcap_repeat_instrument"] = "diagnostic"
 
@@ -210,7 +232,8 @@ summary_sequence_df["redcap_repeat_instrument"] = "sequence"
 
 # Analysis instrument
 analysis_cols = ["central_id", "redcap_repeat_instrument", "redcap_repeat_instance",
-    "redcap_data_access_group", "analysis_local_id", "ave_depth", "missing"]
+    "redcap_data_access_group", "analysis_local_id", "gisaid_authors",
+    "assembly_method", "ave_depth", "missing"]
 summary_analysis_df = summary_df.filter(analysis_cols, axis=1)
 summary_analysis_df["redcap_repeat_instrument"] = "analysis"
 
