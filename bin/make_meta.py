@@ -144,6 +144,12 @@ elif setting == "nanopore":
             meta_dict["instrument_model"] = 1
         else:
             sys.exit("Instrument model not recognized from run info file's instrument descriptor.")
+    elif "MC" in instrument_ont:
+        meta_dict["instrument_make"] = 1
+        if instrument_ont == "MC-110943":
+            meta_dict["instrument_model"] = 0
+        else:
+            sys.exit("Instrument model not recognized from run info file's instrument descriptor.")
     else:
         sys.exit("Instrument make not recognized from run info file's instrument descriptor.")
 
