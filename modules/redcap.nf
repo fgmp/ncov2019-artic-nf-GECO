@@ -10,7 +10,7 @@ process makeMeta {
     publishDir "${params.outdir}/${task.process.replaceAll(":","_")}", pattern: "${params.prefix}.redcap_meta_analysis.csv", mode: 'copy'
 
     input:
-    tuple path(summary_csv), path(runparam)
+    tuple path(summary_csv), path(runparam), path(redcap_local_ids)
 
     output:
     path "${params.prefix}.redcap_meta.csv", emit: redcap_meta_csv
@@ -28,14 +28,15 @@ process makeMeta {
     }
 
     """
-    make_meta.py ${metaSetting} \
-                 ${summary_csv} \
-                 ${runparam} \
-                 ${params.redcap_dag} \
-                 ${params.redcap_instance} \
-                 ${params.redcap_url} \
-                 ${params.redcap_token} \
-                 ${params.prefix}
+    make_metadata.py ${metaSetting} \
+                     ${summary_csv} \
+                     ${runparam} \
+                     ${params.redcap_dag} \
+                     ${params.redcap_instance} \
+                     ${params.redcap_url} \
+                     ${params.redcap_token} \
+                     ${params.prefix} \
+                     ${redcap_local_ids}
     """
 
 }

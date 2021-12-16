@@ -120,9 +120,13 @@ workflow {
    Channel.fromPath( runparamSearchPath )
           .set{ ch_runparam }
 
+   // Make a channel for redcap_local_id file
+   Channel.fromPath( params.redcap_local_ids )
+          .set{ ch_redcap_local_ids }
+
    main:
      if ( params.nanopolish || params.medaka ) {
-         articNcovNanopore(ch_fastqDirs, ch_runparam)
+         articNcovNanopore(ch_fastqDirs, ch_runparam, ch_redcap_local_ids)
      } else if ( params.illumina ) {
          if ( params.cram ) {
             ncovIlluminaCram(ch_cramFiles)

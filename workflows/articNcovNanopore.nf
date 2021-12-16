@@ -130,6 +130,7 @@ workflow articNcovNanopore {
     take:
       ch_fastqDirs
       ch_runparam
+      ch_redcap_local_ids
     
     main:
       if ( params.nanopolish ) {
@@ -171,6 +172,6 @@ workflow articNcovNanopore {
       collateSummary(sequenceAnalysisNanopolish.out.qc_csv, coverageDepth.out.depth_csv)
 
       // Prepare metadata & fasta for REDCap import for nanopolish
-      prepRedcap(collateSummary.out.summary_csv, ch_runparam, sequenceAnalysisNanopolish.out.consensus)
+      prepRedcap(collateSummary.out.summary_csv, ch_runparam, sequenceAnalysisNanopolish.out.consensus, ch_redcap_local_ids)
 }
 
