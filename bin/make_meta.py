@@ -116,6 +116,7 @@ if setting == "illumina":
     # Set redcap_repeat_instance value to 1.
     meta_dict["redcap_repeat_instance"] = instance
 
+# Collect metadata for nanopore.
 elif setting == "nanopore":
     # Parse txt metafile.
     doc = dict()
@@ -140,18 +141,12 @@ elif setting == "nanopore":
     instrument_ont = doc["instrument"]
     if "MN" in instrument_ont:
         meta_dict["instrument_make"] = 1
-        if instrument_ont == "MN37014":
-            meta_dict["instrument_model"] = 1
-        else:
-            sys.exit("Instrument model not recognized from run info file's instrument descriptor.")
+        meta_dict["instrument_model"] = 1
     elif "MC" in instrument_ont:
         meta_dict["instrument_make"] = 1
-        if instrument_ont == "MC-110943":
-            meta_dict["instrument_model"] = 0
-        else:
-            sys.exit("Instrument model not recognized from run info file's instrument descriptor.")
+        meta_dict["instrument_model"] = 0
     else:
-        sys.exit("Instrument make not recognized from run info file's instrument descriptor.")
+        sys.exit("Instrument make/model not recognized from run info file's instrument descriptor.")
 
     # Set whole genome tiled amplicon as default ont library_strategy.
     meta_dict["library_strategy"] = 0
