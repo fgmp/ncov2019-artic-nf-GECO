@@ -133,7 +133,7 @@ elif setting == "nanopore":
     meta_dict["run_name"] = summary_df.index.values[0].split("_barcode")[0]
 
     # Collect metafile sample_id for project_id.
-    meta_dict["project_id"] = doc["sample_id"]
+    meta_dict["project_id"] = doc["protocol_group_id"]
 
     # Collect metafile flow_cell_id for flowcell_id.
     meta_dict["flowcell_id"] = doc["flow_cell_id"]
