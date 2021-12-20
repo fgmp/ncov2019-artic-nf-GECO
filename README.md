@@ -93,4 +93,4 @@ A subdirectory for each process in the workflow is created in `--outdir`. A `qc_
 `nextflow run /data/apps/ncov2019-artic-nf_redcap_prep/ncov2019-artic-nf-GECO -profile conda --nanopolish --prefix <raw_folder_name> --basecalled_fastq <DAG/raw_folder_name/fastq_pass> --fast5_pass <DAG/raw_folder_name/fast5_pass> --sequencing_summary <DAG/raw_folder_name/sequencing_summary.txt> --outdir <DAG/raw_folder_name_results>  --directory <DAG/raw_folder_name> --redcap_local_ids <path/to/local_ids.csv> -with-tower -resume`
 
 ### Template illumina command
-`nextflow run /data/apps/ncov2019-artic-nf_redcap_prep/ncov2019-artic-nf-GECO -profile conda --illumina --prefix <raw_folder_name> --directory <DAG/raw_folder_name> --outdir <DAG/raw_folder_name_results> -with-tower -resume`
+`nextflow run /data/apps/ncov2019-artic-nf_redcap_prep/ncov2019-artic-nf-GECO -profile conda --illumina --prefix <raw_folder_name> --directory <DAG/raw_folder_name> --outdir <DAG/raw_folder_name_results> --redcap_local_ids <path/to/local_ids.csv> -with-tower -resume`

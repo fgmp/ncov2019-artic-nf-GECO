@@ -136,6 +136,7 @@ workflow ncovIllumina {
     take:
       ch_filePairs
       ch_runparam
+      ch_redcap_local_ids
 
     main:
       // Build or download fasta, index and bedfile as required
@@ -163,7 +164,7 @@ workflow ncovIllumina {
       collateSummary(sequenceAnalysis.out.qc_csv, coverageDepth.out.depth_csv)
 
       // Prepare metadata & fasta for REDCap import
-      prepRedcap(collateSummary.out.summary_csv, ch_runparam, sequenceAnalysis.out.consensus)
+      prepRedcap(collateSummary.out.summary_csv, ch_runparam, sequenceAnalysis.out.consensus, ch_redcap_local_ids)
 }
 
 workflow ncovIlluminaCram {
