@@ -132,7 +132,7 @@ workflow {
             ncovIlluminaCram(ch_cramFiles)
          }
          else {
-            ncovIllumina(ch_filePairs, ch_runparam)
+            ncovIllumina(ch_filePairs, ch_runparam, ch_redcap_local_ids)
          }
      } else {
          println("Please select a workflow with --nanopolish, --illumina or --medaka")

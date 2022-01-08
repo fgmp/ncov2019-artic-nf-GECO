@@ -126,14 +126,13 @@ elif setting == "nanopore":
     doc = dict()
     with open(metafile, "r") as f:
         metafile_str = f.read()
-        print(metafile_str)
         doc = dict(item.split("=") for item in metafile_str.split("\n") if "=" in item)
 
     # Set run_name to first half of summary_df index.
     meta_dict["run_name"] = summary_df.index.values[0].split("_barcode")[0]
 
-    # Collect metafile sample_id for project_id.
-    meta_dict["project_id"] = doc["sample_id"]
+    # Collect metafile protocol_group_id for project_id.
+    meta_dict["project_id"] = doc["protocol_group_id"]
 
     # Collect metafile flow_cell_id for flowcell_id.
     meta_dict["flowcell_id"] = doc["flow_cell_id"]
@@ -175,7 +174,9 @@ summary_df = summary_df.assign(**meta_dict)
 
 # Obtain mapping local_id from locid_dict.
 if setting == "illumina":
-    quit("Under construction.")
+    summary_df["local_id"] = summary_df.index.to_series().apply(
+        lambda x: locid_dict["local_id"][x]
+        )
 elif setting == "nanopore":
     summary_df["local_id"] = summary_df.index.to_series().apply(
         lambda x: locid_dict["local_id"][int(x.split("_barcode")[1])]
