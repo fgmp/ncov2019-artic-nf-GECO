@@ -149,6 +149,9 @@ elif setting == "nanopore":
     elif "MC" in instrument_ont:
         meta_dict["instrument_make"] = 1
         meta_dict["instrument_model"] = 0
+    elif "GX" in instrument_ont:
+        meta_dict["instrument_make"] = 1
+        meta_dict["instrument_model"] = 2
     else:
         sys.exit("Instrument make/model not recognized from run info file's instrument descriptor.")
 
