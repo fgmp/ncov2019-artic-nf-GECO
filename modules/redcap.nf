@@ -41,7 +41,7 @@ process makeMeta {
 
 }
 
-
+params.fasta_dir = '~/envs/nextflow_conda_sandbox/fasta_files'
 process renameFasta {
 
     tag { sampleName }
@@ -54,7 +54,8 @@ process renameFasta {
 
     output:
     path "*.fasta", emit: renamed_fasta
-    path "redcap_import_consensus.py"
+    path "redcap_import_consensus.py", emit: fasta_done
+
 
     script:
     """
@@ -62,7 +63,8 @@ process renameFasta {
                     ${consensus_fasta}
     
     cp "$baseDir/bin/redcap_import_consensus.py" .
-    """
 
+    """
+    
 }
 

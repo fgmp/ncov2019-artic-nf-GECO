@@ -97,7 +97,7 @@ process articMinIONNanopolish {
     publishDir "${params.outdir}/${task.process.replaceAll(":","_")}", pattern: "${sampleName}*", mode: "copy"
 
     input:
-    tuple file(fastq), file(schemeRepo), file(fast5Pass), file(seqSummary)
+    tuple file(fastq), path(schemeRepo), file(fast5Pass), file(seqSummary)
 
     output:
     file("${sampleName}*")

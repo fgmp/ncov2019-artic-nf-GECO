@@ -9,13 +9,13 @@ include {articGuppyPlex} from '../modules/artic.nf'
 include {articMinIONNanopolish} from  '../modules/artic.nf' 
 include {articMinIONMedaka} from  '../modules/artic.nf'
 include {articRemoveUnmappedReads} from '../modules/artic.nf' 
-
 include {makeQCCSV} from '../modules/qc.nf'
 include {writeQCSummaryCSV} from '../modules/qc.nf'
-
 include {bamToCram} from '../modules/out.nf'
-
 include {collateSamples} from '../modules/upload.nf'
+
+
+
 
 
 // import subworkflows

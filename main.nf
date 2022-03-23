@@ -7,11 +7,17 @@ nextflow.preview.dsl = 2
 include {printHelp} from './modules/help.nf'
 include {makeFastqSearchPath} from './modules/util.nf'
 include {makeRunParamSearchPath} from './modules/util.nf'
+include {get_barcodes} from './modules/get_barcodes.nf'
 
 // import subworkflows
 include {articNcovNanopore} from './workflows/articNcovNanopore.nf' 
 include {ncovIllumina} from './workflows/illuminaNcov.nf'
 include {ncovIlluminaCram} from './workflows/illuminaNcov.nf'
+include {concatenate_workflow} from './workflows/concatenate_workflow.nf'
+include {nextclade_workflow} from './workflows/nextclade_workflow.nf'
+include {pangolin_workflow} from './workflows/pangolin_workflow.nf'
+include {csv_process_workflow} from './workflows/csv_process_workflow.nf'
+
 
 if (params.help){
     printHelp()
@@ -125,14 +131,16 @@ workflow {
           .set{ ch_redcap_local_ids }
 
    main:
+   // currently using get_barcodes to supply the barcodes using the barcodes from the previous
+   get_barcodes()
      if ( params.nanopolish || params.medaka ) {
-         articNcovNanopore(ch_fastqDirs, ch_runparam, ch_redcap_local_ids)
+         articNcovNanopore(ch_fastqDirs, ch_runparam, get_barcodes.out.barcodes)
      } else if ( params.illumina ) {
          if ( params.cram ) {
             ncovIlluminaCram(ch_cramFiles)
          }
          else {
-            ncovIllumina(ch_filePairs, ch_runparam, ch_redcap_local_ids)
+            ncovIllumina(ch_filePairs, ch_runparam, get_barcodes.out.barcodes)
          }
      } else {
          println("Please select a workflow with --nanopolish, --illumina or --medaka")
