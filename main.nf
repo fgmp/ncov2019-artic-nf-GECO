@@ -127,8 +127,8 @@ workflow {
           .set{ ch_runparam }
 
    // Make a channel for redcap_local_id file
-   Channel.fromPath( params.redcap_local_ids )
-          .set{ ch_redcap_local_ids }
+  // Channel.fromPath( params.redcap_local_ids )
+   //       .set{ ch_redcap_local_ids }
 
    main:
    // currently using get_barcodes to supply the barcodes using the barcodes from the previous

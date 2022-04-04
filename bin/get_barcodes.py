@@ -7,7 +7,7 @@ import redcap
 
 api_url = sys.argv[1]
 api_key = sys.argv[2]
-past_barcodes = sys.argv[3]
+#past_barcodes = sys.argv[3]
 
 
 #past_barcodes = '/mnt/c/Users/Computer/Desktop/projs/geco_run13_2022-02-24/raw/RITM/sarscov_geco_run15/sarscov_geco_run15_030922/20220309_1009_X3_FAR69486_6ee358bb/GECO-RITMBarcodelocalid_DATA_2022-03-10_1529.csv'
@@ -32,15 +32,15 @@ df = pd.DataFrame(redcap_df)
 barcodes = df[["central_id","local_id", "ont_barcode"]]
 
 #get past barcodes
-past_barcodes_df = pd.read_csv(past_barcodes)
+#past_barcodes_df = pd.read_csv(past_barcodes)
 
 #find last local_id of past barcodes
-last_local_id = past_barcodes_df.local_id.iat[-1]
-start_local_id = barcodes.loc[barcodes['local_id'].str.contains(last_local_id, case=False)]
-start_index = start_local_id.index.values[0]
+#last_local_id = past_barcodes_df.local_id.iat[-1]
+#start_local_id = barcodes.loc[barcodes['local_id'].str.contains(last_local_id, case=False)]
+#start_index = start_local_id.index.values[0]
 
 #omit preceding rows
-barcodes = barcodes.drop(barcodes.index[:start_index + 1])
+#barcodes = barcodes.drop(barcodes.index[:start_index + 1])
 barcodes = barcodes[["ont_barcode", "local_id"]]
 
 #omit index

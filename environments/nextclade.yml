@@ -27,7 +27,7 @@ dependencies:
   - libuuid=2.32.1=h7f98852_1000
   - libzlib=1.2.11=h36c2ea0_1013
   - ncurses=6.3=h9c3ff4c_0
-  - nextclade=1.10.3=h9ee0642_0
+  - nextclade
   - nextflow=21.10.6=h4a94de4_0
   - openjdk=8.0.312=h7f98852_0
   - openssl=3.0.0=h7f98852_2
