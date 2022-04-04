@@ -29,7 +29,7 @@ redcap_df = connect_to_subset(api_url, api_key)
 df = pd.DataFrame(redcap_df)
 
 #subset to only barcodes and local_id and central id
-barcodes = df[["central_id","local_id", "ont_barcode"]]
+barcodes = df[["local_id", "ont_barcode"]]
 
 #get past barcodes
 #past_barcodes_df = pd.read_csv(past_barcodes)
