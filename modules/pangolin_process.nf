@@ -16,6 +16,7 @@ process pangolin_process {
     #!/bin/bash
     
     pangolin --update
+    pip install git+https://github.com/cov-lineages/pangolin-data.git
     pangolin ${concatenated_fasta}
 
     """
