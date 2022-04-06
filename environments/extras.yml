@@ -12,4 +12,4 @@ dependencies:
   - requests
   - pip
   - pip:
-    - PyCap
+    - PyCap==1.1.3
