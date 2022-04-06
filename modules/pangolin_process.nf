@@ -1,6 +1,6 @@
 process pangolin_process {
 
-    conda '/data/apps/miniconda3/envs/cov2'
+    conda '/data/apps/miniconda3/envs/pangolin'
     
     publishDir "${params.outdir}/${task.process.replaceAll(":","_")}", pattern: "*.csv", mode: 'copy'
     
