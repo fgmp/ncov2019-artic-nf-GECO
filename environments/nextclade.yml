@@ -1,4 +1,4 @@
-name: nextclade_test
+name: nextclade
 channels:
   - conda-forge
   - bioconda
@@ -43,4 +43,3 @@ dependencies:
   - pip:
     - pip==22.0.4
     - wheel==0.37.1
-prefix: /home/tohoku/apps/miniconda3/envs/nextclade_test
