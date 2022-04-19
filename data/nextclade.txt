@@ -1,0 +1,1 @@
+only exists to create a folder named $baseDir/data/ in github for nextclade dataset, as nextflade cannot make a folder on its own
