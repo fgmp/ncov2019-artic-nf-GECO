@@ -125,4 +125,3 @@ dependencies:
   - zstd=1.5.2=ha95c52a_0
   - pip:
     - pangolearn
-prefix: /home/tohoku/apps/miniconda3/envs/pangolin
