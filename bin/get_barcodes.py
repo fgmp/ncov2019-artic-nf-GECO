@@ -49,6 +49,9 @@ barcodes=barcodes.set_index('ont_barcode')
 #output csv file
 barcodes.to_csv('barcode.csv')
 
+# notes on barcodes: makemetadata.py currently uses the barccodes from the latest central id in the database which correspond to the barcodes given by the input raw data,
+# this works for the intended purpose of this pipeline however can produce errors in the cental id assignment when running a previous batch 
+
 
 
 
