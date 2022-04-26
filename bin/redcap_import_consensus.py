@@ -1,12 +1,14 @@
 #modules required
 import os
-
 import pandas
 import redcap
 import requests
+import sys
+
+api_token = sys.argv[1]
 
 #read redcap project and export records to be stored as pandas dataframe
-proj = redcap.Project('https://geco.ritm-edc.net/redcap/api/', 'INSERT_TOKEN_HERE')
+proj = redcap.Project('https://geco.ritm-edc.net/redcap/api/', api_token)
 proj_df = proj.export_records(format='df')
 
 #make dictionary to get gisaid_name from central id, dropping rows with nan's for gisaid_name
@@ -18,7 +20,7 @@ for i in virusname_dict.keys():
         file_path = './' + str(virusname_dict[i]) + '.fasta'
         if os.path.isfile(file_path): #check if file_path exists. TODO: check if record already has consensus file uploaded.
             data = {
-                'token': 'INSERT_TOKEN_HERE',
+                'token': api_token,
                 'content': 'file',
                 'action': 'import',
                 'record': str(i),
@@ -28,4 +30,6 @@ for i in virusname_dict.keys():
             file_obj = open(file_path, 'rb')
             r = requests.post('https://geco.ritm-edc.net/redcap/api/',data=data,files={'file':file_obj})
             file_obj.close()
+
+print("Upload Successful!")
 

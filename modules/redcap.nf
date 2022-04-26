@@ -48,6 +48,9 @@ process renameFasta {
 
     publishDir "${params.outdir}/${task.process.replaceAll(":","_")}", pattern: "*.fasta", mode: 'copy'
     publishDir "${params.outdir}/${task.process.replaceAll(":","_")}", pattern: "redcap_import_consensus.py", mode: 'copy'
+    publishDir "${params.outdir}/${task.process.replaceAll(":","_")}", pattern: "upload_fasta.py", mode: 'copy'
+    publishDir "${params.outdir}/${task.process.replaceAll(":","_")}", pattern: "uploader.bat", mode: 'copy'
+
 
     input:
     tuple path(redcap_meta), val(sampleName) , path(consensus_fasta)
@@ -55,6 +58,8 @@ process renameFasta {
     output:
     path "*.fasta", emit: renamed_fasta
     path "redcap_import_consensus.py", emit: fasta_done
+    path "upload_fasta.py"
+    path "uploader.bat"
 
 
     script:
@@ -63,6 +68,8 @@ process renameFasta {
                     ${consensus_fasta}
     
     cp "$baseDir/bin/redcap_import_consensus.py" .
+    cp "$baseDir/bin/upload_fasta.py" .
+    cp "$baseDir/bin/uploader.bat" .
 
     """
     
