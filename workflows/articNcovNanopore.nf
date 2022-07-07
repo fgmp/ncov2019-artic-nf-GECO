@@ -77,6 +77,8 @@ workflow sequenceAnalysisNanopolish {
       bam = articMinIONNanopolish.out.ptrim
       qc_csv = writeQCSummaryCSV.out.qcsummary
       consensus = articMinIONNanopolish.out.consensus_fasta
+      bam_index = articMinIONNanopolish.out.bam_index
+      bam_file = articMinIONNanopolish.out.bam_file
 
 }
 
@@ -146,6 +148,9 @@ workflow articNcovNanopore {
 
           sequenceAnalysisNanopolish.out.reffasta.set{ ch_nanopore_reffasta }
 
+
+          
+
       } else if ( params.medaka ) {
           sequenceAnalysisMedaka(ch_fastqDirs)
 
@@ -172,6 +177,6 @@ workflow articNcovNanopore {
       collateSummary(sequenceAnalysisNanopolish.out.qc_csv, coverageDepth.out.depth_csv)
 
       // Prepare metadata & fasta for REDCap import for nanopolish
-      prepRedcap(collateSummary.out.summary_csv, ch_runparam, sequenceAnalysisNanopolish.out.consensus, ch_redcap_local_ids)
+      prepRedcap(collateSummary.out.summary_csv, ch_runparam, sequenceAnalysisNanopolish.out.consensus, ch_redcap_local_ids, sequenceAnalysisNanopolish.out.bam_file.toSortedList(), sequenceAnalysisNanopolish.out.bam_index.toSortedList())
 }
 

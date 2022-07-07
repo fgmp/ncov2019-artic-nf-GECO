@@ -5,6 +5,7 @@ include {pangolin_process} from '../modules/pangolin_process.nf'
 include {nextclade_process} from '../modules/nextclade_process.nf'
 include {concatenate_process} from '../modules/concatenate_process.nf'
 include {process_csv} from '../modules/process_csv.nf'
+include {bammix_process} from '../modules/bammix_process.nf'
 
 workflow prepRedcap {
     take:
@@ -12,6 +13,8 @@ workflow prepRedcap {
       ch_runparam
       ch_consensus
       ch_redcap_local_ids
+      ch_bam_file
+      ch_bam_index
 
     // Should produce both master metadata table & renamed fastas.
     // Maybe subworkflow in same file add for uploading by api.
@@ -24,6 +27,7 @@ workflow prepRedcap {
 		  nextclade_process(concatenate_process.out.concatenated_fasta)
 		  pangolin_process(concatenate_process.out.concatenated_fasta)
 		  process_csv(nextclade_process.out.nextclade_tsv,pangolin_process.out.lineage_report_csv,makeMeta.out.redcap_meta_analysis_csv)
+      bammix_process(nextclade_process.out.nextclade_tsv, ch_bam_file, ch_bam_index)    //collects all emitted bam files and bam index then processes them using bammix
       
 
     emit:

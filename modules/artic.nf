@@ -106,6 +106,8 @@ process articMinIONNanopolish {
     tuple sampleName, file("${sampleName}.sorted.bam"), emit: mapped
     tuple sampleName, file("${sampleName}.consensus.fasta"), emit: consensus_fasta
     tuple sampleName, file("${sampleName}.pass.vcf.gz"), emit: vcf
+    path("${sampleName}.primertrimmed.rg.sorted.bam.bai"), emit: bam_index
+    path("${sampleName}.primertrimmed.rg.sorted.bam"), emit: bam_file
 
     script:
     // Make an identifier from the fastq filename
